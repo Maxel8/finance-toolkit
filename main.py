@@ -32,12 +32,16 @@ while True:
 
         def interest_once():
             P = float(input(lang["option_1_principal"]))
-            r = float(input(lang["option_1_rate"])) / 100
+            r = float(input(lang["option_1_rate"]))
             t = float(input(lang["option_1_time"]))
 
             A = P * (1 + (r/100) * (t/12))
+            A = round(A, 2)
+            interest = int(A - P)
             print(lang["option_1_result"], A)
-            print(lang["option_1_interest"], A - P)
+            print(lang["option_1_interest"], interest)
+
+        interest_once()
 
 
     elif option == 2:
