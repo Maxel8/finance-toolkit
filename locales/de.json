@@ -17,6 +17,13 @@
 
   "option_2_title": "Zinsrechner (ausschüttend)",
   "option_3_title": "Zinseszinsrechner (thesaurierend)",
+
+  "option_4_title": "Annuitätendarlehensrechner",
+  "option_4_loan-ammount": "Geben Sie die Darlehenssumme ein: ",
+  "option_4_interest-rate": "Geben Sie den Zinssatz ein (in %): ",
+  "option_4_months": "Geben Sie die Laufzeit in Monaten ein: ",
+  "option_4_result": "Monatliche Rate: ",
+
   "option_end_title": "Beenden",
 
   "exit_message": "Vielen Dank, dass Sie das Finanz-Toolkit verwendet haben.",

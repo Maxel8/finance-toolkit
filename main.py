@@ -22,6 +22,7 @@ while True:
     print(lang["menu_option_1"])
     print(lang["menu_option_2"])
     print(lang["menu_option_3"])
+    print(lang["menu_option_4"])
     print(lang["menu_option_end"])
 
     option = int(input(lang["menu_option_choose"]))
@@ -37,7 +38,7 @@ while True:
 
             A = P * (1 + (r/100) * (t/12))
             A = round(A, 2)
-            interest = int(A - P)
+            interest = round(A - P, 2)
             print(lang["option_1_result"], A)
             print(lang["option_1_interest"], interest)
 
@@ -51,6 +52,19 @@ while True:
     elif option == 3:
         print(lang["option_3_title"])
 
+    elif option == 4:
+        print(lang["option_4_title"])
+        print()
+
+        def annuity_loan():
+            K = float(input(lang["option_4_loan-amount"]))
+            i = float(input(lang["option_4_interest-rate"]))
+            n = int(input(lang["option_4_months"]))
+
+            R = K * (((i/100/12)*(1+(i/100/12)**n)) / ((1+i/100/12)**n - 1))
+            print(lang["option_4_result"], R)
+        
+        annuity_loan()
 
     elif option == 0:
         print(lang["option_end_title"])

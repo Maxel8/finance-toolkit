@@ -16,6 +16,13 @@
 
   "option_2_title": "Interest Calculator (distributing)",
   "option_3_title": "Compound Interest Calculator (reinvesting)",
+
+  "option_4_title": "Annuity Loan Calculator",
+  "option_4_loan-ammount": "Enter the loan amount: ",
+  "option_4_interest-rate": "Enter the interest rate (in %): ",
+  "option_4_months": "Enter the duration in months: ",
+  "option_4_result": "Monthly payment: ",
+
   "option_end_title": "Exit",
 
   "exit_message": "Thank you for using the Finance Toolkit.",
