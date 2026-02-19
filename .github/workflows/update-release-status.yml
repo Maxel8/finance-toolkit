@@ -1,0 +1,109 @@
+name: Update Release Status Table (Wiki)
+
+on:
+  schedule:
+    - cron: '0 7,17 * * *' # GitHub Actions verwendet UTC; das entspricht 08:00/18:00 Europe/Berlin in CET (achte auf DST)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-release-status:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout (optional)
+        uses: actions/checkout@v4
+
+      - name: Generate Release Status Markdown
+        id: generate
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+
+            const owner = process.env.GITHUB_REPOSITORY.split('/')[0];
+            const repo = process.env.GITHUB_REPOSITORY.split('/')[1];
+
+            // 1) Releases und Milestones (paginiert)
+            const releases = await github.paginate(github.rest.repos.listReleases, { owner, repo, per_page: 100 });
+            const milestones = await github.paginate(github.rest.issues.listMilestones, { owner, repo, state: 'all', per_page: 100 });
+
+            const stable = releases.find(r => !r.prerelease);
+            const beta = releases.find(r => r.prerelease);
+
+            function findMilestoneForTag(tag) {
+              if (!tag) return null;
+              const normalized = tag.replace(/^v/i, '');
+              return milestones.find(m =>
+                m.title === tag ||
+                m.title === normalized ||
+                m.title.includes(tag) ||
+                m.title.includes(normalized)
+              ) || null;
+            }
+
+            async function getStatus(milestone) {
+              if (!milestone) return '✅';
+              const allIssues = await github.paginate(github.rest.issues.listForRepo, {
+                owner, repo, state: 'open', milestone: milestone.number, per_page: 100
+              });
+              const issues = allIssues.filter(i => !i.pull_request);
+              const hasBug = issues.some(issue =>
+                (issue.labels || []).some(l => (typeof l === 'string' ? l === 'bug' : (l && l.name === 'bug')))
+              );
+              if (hasBug) return '❌';
+              return issues.length > 0 ? '⚠️' : '✅';
+            }
+
+            const stableMilestone = findMilestoneForTag(stable?.tag_name);
+            const betaMilestone = findMilestoneForTag(beta?.tag_name);
+
+            const stableStatus = await getStatus(stableMilestone);
+            const betaStatus = await getStatus(betaMilestone);
+
+            const now = new Date().toLocaleString('de-DE', { timeZone: 'Europe/Berlin' });
+            const table = `# Release Status
+
+| Stable | Beta |
+|-------:|:----|
+| ${stable?.tag_name ?? '-'} | ${beta?.tag_name ?? '-'} |
+| ${stableStatus} | ${betaStatus} |
+
+*Zuletzt aktualisiert: ${now}*
+`;
+
+            // In Workspace schreiben
+            const outPath = 'RELEASE_STATUS.md';
+            fs.writeFileSync(outPath, table, { encoding: 'utf8' });
+
+            core.setOutput('file', outPath);
+            return { outPath, now };
+      
+      - name: Push table to Wiki
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          FILE="${{ steps.generate.outputs.file || 'RELEASE_STATUS.md' }}"
+
+          # Klone das Wiki-Repo (Owner/Repo.wiki)
+          git clone https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.wiki.git wiki
+          cp "$FILE" wiki/RELEASE_STATUS.md
+
+          cd wiki
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add RELEASE_STATUS.md
+
+          # Nur committen, wenn sich was geändert hat
+          if git diff --cached --quiet; then
+            echo "No changes to commit to wiki."
+          else
+            git commit -m "ci: update release status"
+            git push origin HEAD
+            echo "Wiki updated."
+          fi
