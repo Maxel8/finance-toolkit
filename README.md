@@ -5,8 +5,8 @@ A collection of financial calculators written in Python.
 ## Features
 
 - Interest Calculator (Once)
-- Interest Calculator (Distributing/ Payout)
-- Compound Interest Calculator (Reinvesting/ Accumulating)
+- Interest Calculator (Distributing)
+- Compound Interest Calculator (Reinvesting)
 
 ## Installation
 

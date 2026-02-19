@@ -1,0 +1,24 @@
+{
+  "menu_title": "Finanz-Toolkit",
+  "menu_option": "Wählen Sie einen Rechner:",
+  "menu_option_1": "1 - Zinsrechner (einamlig)",
+  "menu_option_2": "2 - Zinsrechner (ausschütttend)",
+  "menu_option_3": "3 - Zinseszinsrechner (thesaurierend)",  
+  "menu_option_end": "0 - Beenden",
+  "menu_option_choose": "Geben Sie die Nummer des gewünschten Rechners ein: ",
+
+  "option_1_title": "Zinsrechner (einmaliges Kapital)",
+  "option_1_principal": "Geben Sie das Startkapital ein: ",
+  "option_1_rate": "Geben Sie den Zinssatz ein (in %): ",
+  "option_1_time": "Geben Sie die Laufzeit in Monaten ein: ",
+  "option_1_result": "Endkapital: ",
+  "option_1_interest": "Zinsen: ",
+
+
+  "option_2_title": "Zinsrechner (ausschüttend)",
+  "option_3_title": "Zinseszinsrechner (thesaurierend)",
+  "option_end_title": "Beenden",
+
+  "exit_message": "Vielen Dank, dass Sie das Finanz-Toolkit verwendet haben.",
+  "invalid_message": "Ungültige Eingabe. Bitte versuchen Sie es erneut."
+}
