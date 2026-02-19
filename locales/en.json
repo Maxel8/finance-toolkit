@@ -1,0 +1,23 @@
+{
+  "menu_title": "Finance Toolkit",
+  "menu_option": "Select a calculator:",
+  "menu_option_1": "1 - Interest Calculator (once)",
+  "menu_option_2": "2 - Interest Calculator (distributing)",
+  "menu_option_3": "3 - Compound Interest Calculator (reinvesting)",  
+  "menu_option_end": "0 - Exit",
+  "menu_option_choose": "Enter the number of the desired calculator: ",
+
+  "option_1_title": "Interest Calculator (once)",
+  "option_1_principal": "Enter the starting capital: ",
+  "option_1_rate": "Enter the interest rate (in %): ",
+  "option_1_time": "Enter the duration in months: ",
+  "option_1_result": "Final capital: ",
+  "option_1_interest": "Interest: ",
+
+  "option_2_title": "Interest Calculator (distributing)",
+  "option_3_title": "Compound Interest Calculator (reinvesting)",
+  "option_end_title": "Exit",
+
+  "exit_message": "Thank you for using the Finance Toolkit.",
+  "invalid_message": "Invalid input. Please try again."
+}
